@@ -12,41 +12,49 @@ class SoundViewModel : NSObject, ObservableObject , AVAudioPlayerDelegate{
     
     var audioRecorder : AVAudioRecorder!
     var audioPlayer : AVAudioPlayer!
-    private var path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-    
+    private let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+    private var countOfAudio: Int = 0
     @Published var isRecording : Bool = false {
         didSet{
             recordingActions()
         }
     }
-    @Published var recordingIsFinished : Bool = false
-    @Published var isPlayingAudio : Bool = false
     
+    @Published var recordingIsFinished : Bool = false
+    
+    private var currentRecordingAudio: URL? = nil
+    
+    @Published var isPlayingAudio : Bool = false 
+    
+
     @Published var recordingsList:[Sound] = []
-    var playingURL : URL?
+    
     
     override init(){
         super.init()
         prepareToRecord()
-        
-    }
-    
-    func recordingActions(){
-        if (isRecording) {
-            startRecording()
-        }else{
-            stopRecording()
-        }
     }
     
     func getPath()->URL{
-        //let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        //   return path.appendingPathComponent("audio.m4a")
-        var pathName = path.appendingPathComponent("vosounds_\(Date().toStringOfMilliseconds()).m4a")
+        
+        let pathName = path.appendingPathComponent("vosounds_\(Date().toStringOfMilliseconds()).m4a")
+        currentRecordingAudio = pathName
         print("\(pathName)")
         
         return pathName
     }
+
+    //======================================================================
+    //========================== AUDIO RECORDER ============================
+    //======================================================================
+   
+    func recordingActions(){
+          if (isRecording) {
+              startRecording()
+          }else{
+              stopRecording()
+          }
+      }
     
     func prepareToRecord(){
         let recordSettings:[String: AnyObject] = [
@@ -85,32 +93,8 @@ class SoundViewModel : NSObject, ObservableObject , AVAudioPlayerDelegate{
         })
     }
     
-    
     func stopRecording(){
         audioRecorder.stop()
-     //   isRecording = false
-    }
-    
-    
-    func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
-        
-        //        for i in 0..<recordingsList.count {
-        //            if recordingsList[i].fileURL == playingURL {
-        //                recordingsList[i].isPlaying = false
-        //            }
-        //        }
-    }
-    
-    func saveRecording(){
-        
-    }
-    
-    
-    
-    
-    
-    func  playAudio(){
-        
     }
     
     func deleteRecording() {
@@ -133,25 +117,43 @@ class SoundViewModel : NSObject, ObservableObject , AVAudioPlayerDelegate{
         //            }
         //        }
     }
+        
+    //======================================================================
+    //=========================== AUDIO PLAYER =============================
+    //======================================================================
     
-    func fetchAllRecording(){
+    func playOrStopAudio(){
+        if(countOfAudio>0 && !isRecording && !isPlayingAudio){
+            isPlayingAudio = true
+            startPlaying()
+        }else if(isPlayingAudio){
+            stopPlaying()
+            isPlayingAudio = false
+        }
+    }
         
-               // let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-                let directoryContents = try! FileManager.default.contentsOfDirectory(at: path, includingPropertiesForKeys: nil)
+    func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
         
-                for i in directoryContents {
-                    recordingsList.append(Sound(fileURL : i, createdAt:getFileDate(for: i), isPlaying: false))
-                }
-        
-                recordingsList.sort(by: { $0.createdAt.compare($1.createdAt) == .orderedDescending})
-        
+        isPlayingAudio = false
+        //        for i in 0..<recordingsList.count {
+        //            if recordingsList[i].fileURL == playingURL {
+        //                recordingsList[i].isPlaying = false
+        //            }
+        //        }
     }
     
+//    func fetchAllRecording(){
+//                let directoryContents = try! FileManager.default.contentsOfDirectory(at: path, includingPropertiesForKeys: nil)
+//
+//                for i in directoryContents {
+//                    recordingsList.append(Sound(fileURL : i, createdAt:getFileDate(for: i), isPlaying: false))
+//                }
+//
+//                recordingsList.sort(by: { $0.createdAt.compare($1.createdAt) == .orderedDescending})
+//
+//    }
     
-    func startPlaying(url : URL) {
-        
-                playingURL = url
-        
+    func startPlaying() {
                 let playSession = AVAudioSession.sharedInstance()
         
                 do {
@@ -161,33 +163,31 @@ class SoundViewModel : NSObject, ObservableObject , AVAudioPlayerDelegate{
                 }
         
                 do {
-                    audioPlayer = try AVAudioPlayer(contentsOf: url)
+                    audioPlayer = try AVAudioPlayer(contentsOf: currentRecordingAudio!)
                     audioPlayer.delegate = self
                     audioPlayer.prepareToPlay()
                     audioPlayer.play()
         
-                    for i in 0..<recordingsList.count {
-                        if recordingsList[i].fileURL == url {
-                            recordingsList[i].isPlaying = true
-                        }
-                    }
+//                    for i in 0..<recordingsList.count {
+//                        if recordingsList[i].fileURL == url {
+//                            recordingsList[i].isPlaying = true
+//                        }
+//                    }
         
                 } catch {
                     print("Playing Failed")
                 }
-        
-        
     }
     
-    func stopPlaying(url : URL) {
+    func stopPlaying() {
         
-        //        audioPlayer.stop()
-        //
-        //        for i in 0..<recordingsList.count {
-        //            if recordingsList[i].fileURL == url {
-        //                recordingsList[i].isPlaying = false
-        //            }
-        //        }
+                audioPlayer.stop()
+//
+//                for i in 0..<recordingsList.count {
+//                    if recordingsList[i].fileURL == url {
+//                        recordingsList[i].isPlaying = false
+//                    }
+//                }
     }
     
     

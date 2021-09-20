@@ -12,11 +12,6 @@ struct ContentView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @EnvironmentObject var vm: SoundViewModel
     
-    @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Sound.id, ascending: true)],
-        animation: .default)
-    private var items: FetchedResults<Sound>
-    
     var body: some View {
         
         HStack{
@@ -44,9 +39,8 @@ struct ContentView: View {
         
         // Button Play/Pause Audio
         Button(action: {
-            vm.playAudio()
+            vm.playOrStopAudio()
         }, label: {
-            if(!vm.isRecording){
                 if(vm.isPlayingAudio){
                     Image(systemName: "pause.circle")
                         .resizable()
@@ -61,7 +55,7 @@ struct ContentView: View {
                         .frame(height: 60)
                 }
             }
-        }
+        
         )
         }
         
