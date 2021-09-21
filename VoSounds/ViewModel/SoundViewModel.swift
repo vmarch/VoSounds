@@ -103,7 +103,9 @@ class SoundViewModel : NSObject,
     }
     
     func stopRecording(){
+    
         audioRecorder.stop()
+        fetchAllRecording()
     }
     
     func deleteRecording() {
@@ -152,6 +154,7 @@ class SoundViewModel : NSObject,
     }
  
         func fetchAllRecording(){
+            recordingsList.removeAll()
             
             let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
             let directoryContents = try! FileManager.default.contentsOfDirectory(at: path, includingPropertiesForKeys: nil)
@@ -167,7 +170,7 @@ class SoundViewModel : NSObject,
                 
             }
             
-            recordingsList.sort(by: { $0.createdAt.compare($1.createdAt) == .orderedDescending})
+       //     recordingsList.sort(by: { $0.createdAt.compare($1.createdAt) == .orderedDescending})
             
             print("TTTTTTT>>>> \(recordingsList)")
             

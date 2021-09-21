@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 55;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -20,6 +20,7 @@
 		3F23D2F326F8B0B600B348B3 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F23D2F226F8B0B600B348B3 /* Extensions.swift */; };
 		3F8DF47926F9BE2200F6A311 /* Recording.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8DF47826F9BE2200F6A311 /* Recording.swift */; };
 		3F8DF47B26F9C07D00F6A311 /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8DF47A26F9C07D00F6A311 /* ListView.swift */; };
+		3F8DF48326F9DF1300F6A311 /* ListPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8DF48226F9DF1300F6A311 /* ListPlayer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,7 @@
 		3F23D2F426F8BF3900B348B3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		3F8DF47826F9BE2200F6A311 /* Recording.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Recording.swift; sourceTree = "<group>"; };
 		3F8DF47A26F9C07D00F6A311 /* ListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListView.swift; sourceTree = "<group>"; };
+		3F8DF48226F9DF1300F6A311 /* ListPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListPlayer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,7 +78,6 @@
 			children = (
 				3F23D2F426F8BF3900B348B3 /* Info.plist */,
 				3F23D2E426F8866C00B348B3 /* Tools */,
-				3F23D2E326F8866100B348B3 /* Extensions */,
 				3F23D2E226F8865400B348B3 /* Repository */,
 				3F23D2E126F8864900B348B3 /* Models */,
 				3F23D2E026F8863E00B348B3 /* Views */,
@@ -111,6 +112,7 @@
 			children = (
 				3F8DF47A26F9C07D00F6A311 /* ListView.swift */,
 				3F23D2CE26F885B200B348B3 /* ContentView.swift */,
+				3F8DF48226F9DF1300F6A311 /* ListPlayer.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -128,13 +130,6 @@
 			children = (
 			);
 			path = Repository;
-			sourceTree = "<group>";
-		};
-		3F23D2E326F8866100B348B3 /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Extensions;
 			sourceTree = "<group>";
 		};
 		3F23D2E426F8866C00B348B3 /* Tools */ = {
@@ -191,7 +186,7 @@
 				};
 			};
 			buildConfigurationList = 3F23D2C426F885B200B348B3 /* Build configuration list for PBXProject "VoSounds" */;
-			compatibilityVersion = "Xcode 13.0";
+			compatibilityVersion = "Xcode 12.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -227,6 +222,7 @@
 			files = (
 				3F8DF47B26F9C07D00F6A311 /* ListView.swift in Sources */,
 				3F23D2D626F885B200B348B3 /* Persistence.swift in Sources */,
+				3F8DF48326F9DF1300F6A311 /* ListPlayer.swift in Sources */,
 				3F23D2F326F8B0B600B348B3 /* Extensions.swift in Sources */,
 				3F23D2CF26F885B200B348B3 /* ContentView.swift in Sources */,
 				3F23D2D926F885B200B348B3 /* VoSounds.xcdatamodeld in Sources */,

@@ -11,32 +11,34 @@ import UIKit
 
 struct ListView: View {
     @Binding var aRecords:[Recording]
-   // @EnvironmentObject var vm: SoundViewModel
+    // @EnvironmentObject var vm: SoundViewModel
     //struct vars
     
     var body: some View {
-        ZStack{
-            
-            VStack{
-                List{
-                    
-                    ForEach(aRecords, id: \.id) { (rec) in
-                //    ForEach($vm.recordingsList, id: \.id) { (rec) in
-                        NavigationLink(destination: Text("löl")) {
-                            HStack{
-                                
-                                
-                                Text("\(rec.name)")
-                            }.onAppear{
-                                print("IN LIST VIEW")
-                                
+        NavigationView{
+            ZStack{
+                VStack{
+                    List{
+                        ForEach(aRecords, id: \.id) { (rec) in
+                            //    ForEach($vm.recordingsList, id: \.id) { (rec) in
+                            NavigationLink(destination:
+                                            
+                                            ListPlayer(currentRecordingAudio: rec.fileURL)
+                            
+                            ) {
+                                HStack{
+                                    
+                                    
+                                    Text("\(rec.name)")
+                                }.onAppear{
+                                    print("IN LIST VIEW")
+                                    
+                                }
                             }
                         }
+                        
                     }
-                }.navigationBarItems(leading: EditButton(),
-                                     trailing: Button("Add") {
-                    
-                })
+                }
             }
         }
     }
