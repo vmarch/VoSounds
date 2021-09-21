@@ -9,9 +9,7 @@ import Foundation
 import AVFoundation
 import CoreData
 
-class SoundViewModel : NSObject,
-                       ObservableObject ,
-                        AVAudioPlayerDelegate{
+class SoundViewModel : NSObject, ObservableObject, AVAudioPlayerDelegate{
     
     var audioRecorder : AVAudioRecorder!
     var audioPlayer : AVAudioPlayer!
@@ -31,11 +29,11 @@ class SoundViewModel : NSObject,
     
     private var currentRecordingAudio: URL? = nil
     
-    @Published var isPlayingAudio : Bool = false 
+    @Published var isPlayingAudio : Bool = false
     
     @Published var showingPlayList: Bool = false
-   
-   // @Published var recordingsList = [Sound] ()
+    
+    // @Published var recordingsList = [Sound] ()
     
     
     override init(){
@@ -52,18 +50,18 @@ class SoundViewModel : NSObject,
         
         return pathName
     }
-
+    
     //======================================================================
     //========================== AUDIO RECORDER ============================
     //======================================================================
-   
+    
     func recordingActions(){
-          if (isRecording) {
-              startRecording()
-          }else{
-              stopRecording()
-          }
-      }
+        if (isRecording) {
+            startRecording()
+        }else{
+            stopRecording()
+        }
+    }
     
     func prepareToRecord(){
         let recordSettings:[String: AnyObject] = [
@@ -84,13 +82,13 @@ class SoundViewModel : NSObject,
     
     func startRecording() {
         let recordingSession = AVAudioSession.sharedInstance()
-        //        do {
-        //            try recordingSession.setCategory(.playAndRecord, mode: .default)
-        //            try recordingSession.setActive(true)
-        //        } catch {
-        //            print("Cannot setup the Recording")
-        //        }
-        //
+                do {
+                    try recordingSession.setCategory(.playAndRecord, mode: .default)
+                    try recordingSession.setActive(true)
+                } catch {
+                    print("Cannot setup the Recording")
+                }
+        
         recordingSession.requestRecordPermission({(granted: Bool)-> Void in
             if granted {
                 print("Permission to record granted")
@@ -126,7 +124,7 @@ class SoundViewModel : NSObject,
         //            }
         //        }
     }
-        
+    
     //======================================================================
     //=========================== AUDIO PLAYER =============================
     //======================================================================
@@ -140,7 +138,7 @@ class SoundViewModel : NSObject,
             isPlayingAudio = false
         }
     }
-        
+    
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
         
         isPlayingAudio = false
@@ -150,77 +148,60 @@ class SoundViewModel : NSObject,
         //            }
         //        }
     }
- 
-        func fetchAllRecording(){
-            
-            let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-            let directoryContents = try! FileManager.default.contentsOfDirectory(at: path, includingPropertiesForKeys: nil)
-
-            var ind = 0
-            
-            for i in directoryContents {
-               
-                
-                recordingsList.append(Recording(name: "Record_\(ind)", fileURL : i, createdAt:getFileDate(for: i), isPlaying: false))
-                
-                ind += 1
-                
-            }
-            
-            recordingsList.sort(by: { $0.createdAt.compare($1.createdAt) == .orderedDescending})
-            
-            print("TTTTTTT>>>> \(recordingsList)")
-            
-        }
     
-//
-//    func fetchAllRecording(){
-//        let directoryContents = try! FileManager.default.contentsOfDirectory(at: path, includingPropertiesForKeys: nil)
-//
-//                for i in directoryContents {
-//                    recordingsList.append(Sound(id: 1, created: getFileDate(for: i), filename: i.lastPathComponent, name: i.deletingPathExtension().lastPathComponent ))
-//                }
-//
-//        Sound(
-//                recordingsList.sort(by: { $0.createdAt.compare($1.createdAt) == .orderedDescending})
-//
-//    }
-
+    func fetchAllRecording(){
+        recordingsList.removeAll()
+       
+        let directoryContents = try! FileManager.default.contentsOfDirectory(at: path, includingPropertiesForKeys: nil)
+        
+        var ind = 0
+        
+        for i in directoryContents {
+            recordingsList.append(Recording(name: "Record_\(ind)", fileURL : i, createdAt: getFileDate(for: i)))
+            ind += 1
+           }
+        
+        recordingsList.sort(by: { $0.createdAt.compare($1.createdAt) == .orderedDescending})
+        
+        print("TTTTTTT>>>> \(recordingsList)")
+        
+    }
+    
     func startPlaying() {
-                let playSession = AVAudioSession.sharedInstance()
+        let playSession = AVAudioSession.sharedInstance()
         
-                do {
-                    try playSession.overrideOutputAudioPort(AVAudioSession.PortOverride.speaker)
-                } catch {
-                    print("Playing failed in Device")
-                }
+        do {
+            try playSession.overrideOutputAudioPort(AVAudioSession.PortOverride.speaker)
+        } catch {
+            print("Playing failed in Device")
+        }
         
-                do {
-                    audioPlayer = try AVAudioPlayer(contentsOf: currentRecordingAudio!)
-                    audioPlayer.delegate = self
-                    audioPlayer.prepareToPlay()
-                    audioPlayer.play()
-        
-//                    for i in 0..<recordingsList.count {
-//                        if recordingsList[i].fileURL == url {
-//                            recordingsList[i].isPlaying = true
-//                        }
-//                    }
-        
-                } catch {
-                    print("Playing Failed")
-                }
+        do {
+            audioPlayer = try AVAudioPlayer(contentsOf: currentRecordingAudio!)
+            audioPlayer.delegate = self
+            audioPlayer.prepareToPlay()
+            audioPlayer.play()
+            
+            //                    for i in 0..<recordingsList.count {
+            //                        if recordingsList[i].fileURL == url {
+            //                            recordingsList[i].isPlaying = true
+            //                        }
+            //                    }
+            
+        } catch {
+            print("Playing Failed")
+        }
     }
     
     func stopPlaying() {
         
-                audioPlayer.stop()
-//
-//                for i in 0..<recordingsList.count {
-//                    if recordingsList[i].fileURL == url {
-//                        recordingsList[i].isPlaying = false
-//                    }
-//                }
+        audioPlayer.stop()
+        //
+        //                for i in 0..<recordingsList.count {
+        //                    if recordingsList[i].fileURL == url {
+        //                        recordingsList[i].isPlaying = false
+        //                    }
+        //                }
     }
     
     
@@ -245,12 +226,12 @@ class SoundViewModel : NSObject,
         //        }
     }
     
-       func getFileDate(for file: URL) -> Date {
-            if let attributes = try? FileManager.default.attributesOfItem(atPath: file.path) as [FileAttributeKey: Any],
-                let creationDate = attributes[FileAttributeKey.creationDate] as? Date {
-                return creationDate
-            } else {
-                return Date()
-            }
+    func getFileDate(for file: URL) -> Date {
+        if let attributes = try? FileManager.default.attributesOfItem(atPath: file.path) as [FileAttributeKey: Any],
+           let creationDate = attributes[FileAttributeKey.creationDate] as? Date {
+            return creationDate
+        } else {
+            return Date()
         }
+    }
 }

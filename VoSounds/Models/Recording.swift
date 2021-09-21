@@ -13,6 +13,4 @@ struct Recording : Equatable, Identifiable {
     var name : String
     let fileURL : URL
     let createdAt : Date
-    var isPlaying : Bool
-    
 }

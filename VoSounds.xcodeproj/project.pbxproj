@@ -76,7 +76,6 @@
 			children = (
 				3F23D2F426F8BF3900B348B3 /* Info.plist */,
 				3F23D2E426F8866C00B348B3 /* Tools */,
-				3F23D2E326F8866100B348B3 /* Extensions */,
 				3F23D2E226F8865400B348B3 /* Repository */,
 				3F23D2E126F8864900B348B3 /* Models */,
 				3F23D2E026F8863E00B348B3 /* Views */,
@@ -128,13 +127,6 @@
 			children = (
 			);
 			path = Repository;
-			sourceTree = "<group>";
-		};
-		3F23D2E326F8866100B348B3 /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Extensions;
 			sourceTree = "<group>";
 		};
 		3F23D2E426F8866C00B348B3 /* Tools */ = {

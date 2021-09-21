@@ -10,13 +10,12 @@ import SwiftUI
 @main
 struct VoSoundsApp: App {
     let persistenceController = PersistenceController.shared
-
- //   @StateObject var vm: SoundViewModel = SoundViewModel()
+    @StateObject var vm: SoundViewModel = SoundViewModel()
     var body: some Scene {
         WindowGroup {
             ContentView()
-//                .environment(\.managedObjectContext, persistenceController.container.viewContext)
-//                .environmentObject(vm)
+                .environment(\.managedObjectContext, persistenceController.container.viewContext)
+                .environmentObject(vm)
         }
     }
 }

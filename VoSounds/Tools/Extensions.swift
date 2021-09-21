@@ -51,8 +51,9 @@ extension Date {
     var getTimeAsString: String{
         
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "HH:mm"
-        //Output: 12:16
+       // dateFormatter.dateFormat = "HH:mm"
+        dateFormatter.dateFormat = "MMM d, HH:mm:ss"
+        //Output: Jan 1, 18:45:56
         
         /*
     

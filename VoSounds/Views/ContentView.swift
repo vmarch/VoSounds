@@ -9,9 +9,9 @@ import SwiftUI
 import CoreData
 
 struct ContentView: View {
-    //  @Environment(\.managedObjectContext) private var viewContext
-    // @EnvironmentObject var vm: SoundViewModel
-    @ObservedObject var vm: SoundViewModel = SoundViewModel()
+     @Environment(\.managedObjectContext) private var viewContext
+     @EnvironmentObject var vm: SoundViewModel
+   // @ObservedObject var vm: SoundViewModel = SoundViewModel()
     
     var body: some View {
         
@@ -77,12 +77,9 @@ struct ContentView: View {
             }
             
             .sheet(isPresented: $vm.showingPlayList, content: {
-                ListView(aRecords: $vm.recordingsList)
+                ListView()
             })
-            
-            
         }
-        
     }
 }
 
@@ -92,10 +89,10 @@ private let itemFormatter: DateFormatter = {
     formatter.timeStyle = .medium
     return formatter
 }()
-//
-//struct ContentView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ContentView()
-//            //.environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
-//    }
-//}
+
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView()
+            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+    }
+}

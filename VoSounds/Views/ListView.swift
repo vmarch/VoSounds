@@ -1,32 +1,26 @@
 //
 //  ListView.swift
-//  FoodApi_doz_14
+//  VoSounds
 //
-//  Created by Alexander Hoch on 10.09.21.
-//  Copyright © 2021 zancor. All rights reserved.
+//  Created by devtolife on 21.09.21.
 //
 
 import SwiftUI
 import UIKit
 
 struct ListView: View {
-    @Binding var aRecords:[Recording]
-   // @EnvironmentObject var vm: SoundViewModel
-    //struct vars
-    
+    @EnvironmentObject var vm: SoundViewModel
+   
     var body: some View {
         ZStack{
-            
             VStack{
                 List{
-                    
-                    ForEach(aRecords, id: \.id) { (rec) in
-                //    ForEach($vm.recordingsList, id: \.id) { (rec) in
+                    ForEach(vm.recordingsList, id: \.id) { (rec) in
                         NavigationLink(destination: Text("löl")) {
                             HStack{
-                                
-                                
+                                                              
                                 Text("\(rec.name)")
+                                Text("(\(rec.createdAt.getTimeAsString))")
                             }.onAppear{
                                 print("IN LIST VIEW")
                                 
