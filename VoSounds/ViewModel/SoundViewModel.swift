@@ -152,7 +152,7 @@ class SoundViewModel : NSObject,
             for i in directoryContents {
                
                 
-                recordingsList.append(Recording(name: "Record_\(ind)", fileURL : i, createdAt:getFileDate(for: i), isPlaying: false))
+                recordingsList.append(Recording(name: "Record_\(ind)", fileURL : i, createdAt:getFileDate(for: i)))
                 
                 ind += 1
                 

@@ -3,7 +3,6 @@
 //  FoodApi_doz_14
 //
 //  Created by Alexander Hoch on 10.09.21.
-//  Copyright © 2021 zancor. All rights reserved.
 //
 
 import SwiftUI
