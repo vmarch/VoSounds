@@ -18,6 +18,7 @@
 		3F23D2EF26F8974A00B348B3 /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F23D2EE26F8974A00B348B3 /* AVKit.framework */; };
 		3F23D2F126F8978900B348B3 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F23D2F026F8978900B348B3 /* MediaPlayer.framework */; };
 		3F23D2F326F8B0B600B348B3 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F23D2F226F8B0B600B348B3 /* Extensions.swift */; };
+		3F8DF48126F9CE4C00F6A311 /* ServerScripts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8DF48026F9CE4C00F6A311 /* ServerScripts.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +35,7 @@
 		3F23D2F026F8978900B348B3 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		3F23D2F226F8B0B600B348B3 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		3F23D2F426F8BF3900B348B3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		3F8DF48026F9CE4C00F6A311 /* ServerScripts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerScripts.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,11 +72,12 @@
 		3F23D2CB26F885B200B348B3 /* VoSounds */ = {
 			isa = PBXGroup;
 			children = (
+				3F8DF47F26F9CDF200F6A311 /* IgnoreData */,
 				3F23D2F426F8BF3900B348B3 /* Info.plist */,
 				3F23D2E426F8866C00B348B3 /* Tools */,
 				3F23D2E326F8866100B348B3 /* Extensions */,
 				3F23D2E226F8865400B348B3 /* Repository */,
-				3F23D2E126F8864900B348B3 /* Models */,
+				3F8DF47E26F9CDD600F6A311 /* Models */,
 				3F23D2E026F8863E00B348B3 /* Views */,
 				3F23D2DF26F8863000B348B3 /* ViewModel */,
 				3F23D2CC26F885B200B348B3 /* VoSoundsApp.swift */,
@@ -110,13 +113,6 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		3F23D2E126F8864900B348B3 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
 		3F23D2E226F8865400B348B3 /* Repository */ = {
 			isa = PBXGroup;
 			children = (
@@ -147,6 +143,21 @@
 				3F23D2EC26F8973F00B348B3 /* AVFoundation.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		3F8DF47E26F9CDD600F6A311 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		3F8DF47F26F9CDF200F6A311 /* IgnoreData */ = {
+			isa = PBXGroup;
+			children = (
+				3F8DF48026F9CE4C00F6A311 /* ServerScripts.swift */,
+			);
+			path = IgnoreData;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -225,6 +236,7 @@
 				3F23D2D926F885B200B348B3 /* VoSounds.xcdatamodeld in Sources */,
 				3F23D2EA26F88A0600B348B3 /* SoundViewModel.swift in Sources */,
 				3F23D2CD26F885B200B348B3 /* VoSoundsApp.swift in Sources */,
+				3F8DF48126F9CE4C00F6A311 /* ServerScripts.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
