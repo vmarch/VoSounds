@@ -18,7 +18,6 @@ class SoundViewModel : NSObject,
     private let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
     private var countOfAudio: Int = 1
     
-    
     @Published var recordingsList = [Recording]()
     
     @Published var isRecording : Bool = false {
@@ -30,9 +29,7 @@ class SoundViewModel : NSObject,
     @Published var recordingIsFinished : Bool = false
     
     private var currentRecordingAudio: URL? = nil
-    
-    @Published var isPlayingAudio : Bool = false 
-    
+    @Published var isPlayingAudio : Bool = false
     @Published var showingPlayList: Bool = false
    
    // @Published var recordingsList = [Sound] ()
@@ -45,11 +42,9 @@ class SoundViewModel : NSObject,
     }
     
     func getPath()->URL{
-        
         let pathName = path.appendingPathComponent("vosounds_\(Date().toStringOfMilliseconds()).m4a")
         currentRecordingAudio = pathName
         print("\(pathName)")
-        
         return pathName
     }
 
@@ -103,7 +98,6 @@ class SoundViewModel : NSObject,
     }
     
     func stopRecording(){
-    
         audioRecorder.stop()
         fetchAllRecording()
     }
@@ -144,13 +138,7 @@ class SoundViewModel : NSObject,
     }
         
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
-        
-        isPlayingAudio = false
-        //        for i in 0..<recordingsList.count {
-        //            if recordingsList[i].fileURL == playingURL {
-        //                recordingsList[i].isPlaying = false
-        //            }
-        //        }
+        playOrStopAudio()
     }
  
         func fetchAllRecording(){

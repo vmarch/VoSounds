@@ -11,8 +11,6 @@ import UIKit
 
 struct ListView: View {
     @Binding var aRecords:[Recording]
-    // @EnvironmentObject var vm: SoundViewModel
-    //struct vars
     
     var body: some View {
         NavigationView{
@@ -20,15 +18,10 @@ struct ListView: View {
                 VStack{
                     List{
                         ForEach(aRecords, id: \.id) { (rec) in
-                            //    ForEach($vm.recordingsList, id: \.id) { (rec) in
                             NavigationLink(destination:
-                                            
                                             ListPlayer(currentRecordingAudio: rec.fileURL)
-                            
                             ) {
                                 HStack{
-                                    
-                                    
                                     Text("\(rec.name)")
                                 }.onAppear{
                                     print("IN LIST VIEW")
@@ -36,7 +29,6 @@ struct ListView: View {
                                 }
                             }
                         }
-                        
                     }
                 }
             }

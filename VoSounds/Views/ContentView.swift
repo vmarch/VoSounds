@@ -9,18 +9,12 @@ import SwiftUI
 import CoreData
 
 struct ContentView: View {
-    //  @Environment(\.managedObjectContext) private var viewContext
-    // @EnvironmentObject var vm: SoundViewModel
     @ObservedObject var vm: SoundViewModel = SoundViewModel()
     
     var body: some View {
         
         VStack{
-            
-            
-            
             HStack{
-                
                 // Button Start/Stop Record
                 Button(action: {
                     vm.isRecording.toggle()
@@ -59,10 +53,8 @@ struct ContentView: View {
                             .frame(height: 60)
                     }
                 }
-                       
                 )
             }
-            
             
             Button(action: {
                 if self.vm.isRecording == true {
@@ -79,10 +71,7 @@ struct ContentView: View {
             .sheet(isPresented: $vm.showingPlayList, content: {
                 ListView(aRecords: $vm.recordingsList)
             })
-            
-            
         }
-        
     }
 }
 
@@ -92,10 +81,3 @@ private let itemFormatter: DateFormatter = {
     formatter.timeStyle = .medium
     return formatter
 }()
-//
-//struct ContentView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ContentView()
-//            //.environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
-//    }
-//}
