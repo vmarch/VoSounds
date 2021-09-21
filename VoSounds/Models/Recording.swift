@@ -8,9 +8,8 @@
 import Foundation
 
 struct Recording : Equatable, Identifiable {
-    
     let id = UUID()
-    var name : String
-    let fileURL : URL
-    let createdAt : Date
+    let name : String
+    let filename : String
+    let created : String
 }

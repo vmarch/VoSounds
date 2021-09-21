@@ -15,12 +15,12 @@ struct ListView: View {
         ZStack{
             VStack{
                 List{
-                    ForEach(vm.recordingsList, id: \.id) { (rec) in
+                    ForEach(vm.studentRecordingList, id: \.id) { (rec) in
                         NavigationLink(destination: Text("löl")) {
                             HStack{
                                                               
-                                Text("\(rec.name)")
-                                Text("(\(rec.createdAt.getTimeAsString))")
+                            Text("\(rec.name)")
+                                Text("(\(Date(stringOfMilliseconds: rec.created).getDateAsString)")
                             }.onAppear{
                                 print("IN LIST VIEW")
                                 

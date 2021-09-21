@@ -20,6 +20,7 @@
 		3F23D2F326F8B0B600B348B3 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F23D2F226F8B0B600B348B3 /* Extensions.swift */; };
 		3F8DF47926F9BE2200F6A311 /* Recording.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8DF47826F9BE2200F6A311 /* Recording.swift */; };
 		3F8DF47B26F9C07D00F6A311 /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8DF47A26F9C07D00F6A311 /* ListView.swift */; };
+		3FEC69A226FA64150009C85B /* TeachAudio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FEC69A126FA64150009C85B /* TeachAudio.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,7 @@
 		3F23D2F426F8BF3900B348B3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		3F8DF47826F9BE2200F6A311 /* Recording.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Recording.swift; sourceTree = "<group>"; };
 		3F8DF47A26F9C07D00F6A311 /* ListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListView.swift; sourceTree = "<group>"; };
+		3FEC69A126FA64150009C85B /* TeachAudio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeachAudio.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,6 +120,7 @@
 			isa = PBXGroup;
 			children = (
 				3F8DF47826F9BE2200F6A311 /* Recording.swift */,
+				3FEC69A126FA64150009C85B /* TeachAudio.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -222,6 +225,7 @@
 				3F23D2F326F8B0B600B348B3 /* Extensions.swift in Sources */,
 				3F23D2CF26F885B200B348B3 /* ContentView.swift in Sources */,
 				3F23D2D926F885B200B348B3 /* VoSounds.xcdatamodeld in Sources */,
+				3FEC69A226FA64150009C85B /* TeachAudio.swift in Sources */,
 				3F23D2EA26F88A0600B348B3 /* SoundViewModel.swift in Sources */,
 				3F8DF47926F9BE2200F6A311 /* Recording.swift in Sources */,
 				3F23D2CD26F885B200B348B3 /* VoSoundsApp.swift in Sources */,

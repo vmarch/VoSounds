@@ -16,14 +16,50 @@ struct ContentView: View {
     var body: some View {
         
         VStack{
+
+            Section(header: Text("Choose an Teacher's Audio:")
+                        .padding(.horizontal ,16)
+                        .padding(.top ,8)){
+                List{
+                    ForEach(vm.teacherAudioList, id: \.id) { i in
+                        HStack{
+                            Text(i.name)
+                                .fontWeight(.bold)
+                        }
+                    }
+                }.padding(8)
+                    .background(Color.white)
+                    .cornerRadius(10)
+                    .padding(.horizontal, 8)
+                    .shadow(radius: 2)
+            }
             
-            
+            Spacer()
             
             HStack{
-                
+                // Button Play/Pause Teacher's Audio
+                Button(action: {
+                    vm.playOrStopTeacherAudio()
+                }, label: {
+                    if(vm.isPlayingTeacherAudio){
+                        Image(systemName: "speaker.wave.2.circle.fill")
+                            .resizable()
+                            .scaledToFit()
+                            .foregroundColor(.blue)
+                            .frame(height: 60)
+                    }else{
+                        Image(systemName: "speaker.wave.2.circle")
+                            .resizable()
+                            .scaledToFit()
+                            .foregroundColor(.blue)
+                            .frame(height: 60)
+                    }
+                }
+                )
+                Divider()
                 // Button Start/Stop Record
                 Button(action: {
-                    vm.isRecording.toggle()
+                    vm.startOrStopRecording()
                 }, label: {
                     if(vm.isRecording){
                         Image(systemName: "stop.circle")
@@ -41,11 +77,11 @@ struct ContentView: View {
                 }
                 )
                 
-                // Button Play/Pause Audio
+                // Button Play/Pause User's Audio
                 Button(action: {
-                    vm.playOrStopAudio()
+                    vm.playOrStopStudentAudio()
                 }, label: {
-                    if(vm.isPlayingAudio){
+                    if(vm.isPlayingStudentAudio){
                         Image(systemName: "pause.circle")
                             .resizable()
                             .scaledToFit()
@@ -59,26 +95,33 @@ struct ContentView: View {
                             .frame(height: 60)
                     }
                 }
-                       
                 )
             }
-            
-            
-            Button(action: {
-                if self.vm.isRecording == true {
-                    self.vm.stopRecording()
+            Divider()
+
+            Section(header: Text("Choose your's Audio:")
+                        .padding(.horizontal ,16)
+                        .padding(.top ,8)){
+                VStack{
+                    List{
+                        ForEach(vm.studentRecordingList, id: \.id) { (rec) in
+                            NavigationLink(destination: Text("löl")) {
+                                HStack{
+                                                                  
+                                Text("\(rec.name)")
+                                    Text("(\(Date(stringOfMilliseconds: rec.created).getDateAsString)")
+                                }.onAppear{
+                                    print("IN LIST VIEW")
+                                    
+                                }
+                            }
+                        }
+                    }.navigationBarItems(leading: EditButton(),
+                                         trailing: Button("Add") {
+                        
+                    })
                 }
-                self.vm.fetchAllRecording()
-                vm.showingPlayList.toggle()
-            }) {
-                Image(systemName: "list.bullet")
-                    .foregroundColor(.red)
-                    .font(.system(size: 20, weight: .bold))
             }
-            
-            .sheet(isPresented: $vm.showingPlayList, content: {
-                ListView()
-            })
         }
     }
 }

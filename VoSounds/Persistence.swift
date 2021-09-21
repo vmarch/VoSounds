@@ -14,10 +14,10 @@ struct PersistenceController {
         let result = PersistenceController(inMemory: true)
         let viewContext = result.container.viewContext
         for _ in 0..<10 {
-            let newItem = Sound(context: viewContext)
+            let newItem = Myaudio(context: viewContext)
             newItem.name = "soundName"
             newItem.id = 1254563
-            newItem.filename = "soundFilename"
+            newItem.filename = "soundFilename.m4p"
         }
         do {
             try viewContext.save()

@@ -21,17 +21,16 @@ extension Date {
         self.addTimeInterval(TimeInterval(Double(milliseconds % 1000) / 1000 ))
     }
     
-//    // Just any date
-//    func getTemporaryDate() -> Date{
-//        return Date(milliseconds: 437676767676)
-//    }
+    // Just any date
+    func getTemporaryDate() -> Date{
+        return Date(milliseconds: 437676767676)
+    }
     
     //Date to String of Milliseconds
     func toStringOfMilliseconds() -> String {
         return String(Int64(self.timeIntervalSince1970 * 1000))
     }
-
-    
+   
     //From String of Milliseconds to Date
     init(stringOfMilliseconds: String) {
         self = Date(timeIntervalSince1970: TimeInterval(Int64(stringOfMilliseconds)! / 1000))
@@ -43,12 +42,12 @@ extension Date {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd.MM.yyyy"
         
-        let currentDateStr = dateFormatter.string(from: self)
-        return currentDateStr
+        let dateAsString = dateFormatter.string(from: self)
+        return dateAsString
         
     }
         
-    var getTimeAsString: String{
+    var getCurrentTimeAsString: String{
         
         let dateFormatter = DateFormatter()
        // dateFormatter.dateFormat = "HH:mm"
@@ -106,13 +105,13 @@ extension Date {
         //Output: Pm
         */
         
-        let currentDateStr = dateFormatter.string(from: self)
+        let dateAsString = dateFormatter.string(from: self)
         /*  //if need time from String
         dateFormatter.dateFormat = "HH:mm:ss"
         Output: 12:16:45
         var dateFromStr = dateFormatter.date(from: "17:56:25")!
         */
-        return currentDateStr
+        return dateAsString
         
     }
     
