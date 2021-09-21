@@ -7,13 +7,20 @@
 
 import Foundation
 import AVFoundation
+import CoreData
 
-class SoundViewModel : NSObject, ObservableObject , AVAudioPlayerDelegate{
+class SoundViewModel : NSObject,
+                       ObservableObject ,
+                        AVAudioPlayerDelegate{
     
     var audioRecorder : AVAudioRecorder!
     var audioPlayer : AVAudioPlayer!
     private let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-    private var countOfAudio: Int = 0
+    private var countOfAudio: Int = 1
+    
+    
+    @Published var recordingsList = [Recording]()
+    
     @Published var isRecording : Bool = false {
         didSet{
             recordingActions()
@@ -26,12 +33,14 @@ class SoundViewModel : NSObject, ObservableObject , AVAudioPlayerDelegate{
     
     @Published var isPlayingAudio : Bool = false 
     
-
-    @Published var recordingsList:[Sound] = []
+    @Published var showingPlayList: Bool = false
+   
+   // @Published var recordingsList = [Sound] ()
     
     
     override init(){
         super.init()
+        fetchAllRecording()
         prepareToRecord()
     }
     
@@ -141,18 +150,42 @@ class SoundViewModel : NSObject, ObservableObject , AVAudioPlayerDelegate{
         //            }
         //        }
     }
+ 
+        func fetchAllRecording(){
+            
+            let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+            let directoryContents = try! FileManager.default.contentsOfDirectory(at: path, includingPropertiesForKeys: nil)
+
+            var ind = 0
+            
+            for i in directoryContents {
+               
+                
+                recordingsList.append(Recording(name: "Record_\(ind)", fileURL : i, createdAt:getFileDate(for: i), isPlaying: false))
+                
+                ind += 1
+                
+            }
+            
+            recordingsList.sort(by: { $0.createdAt.compare($1.createdAt) == .orderedDescending})
+            
+            print("TTTTTTT>>>> \(recordingsList)")
+            
+        }
     
+//
 //    func fetchAllRecording(){
-//                let directoryContents = try! FileManager.default.contentsOfDirectory(at: path, includingPropertiesForKeys: nil)
+//        let directoryContents = try! FileManager.default.contentsOfDirectory(at: path, includingPropertiesForKeys: nil)
 //
 //                for i in directoryContents {
-//                    recordingsList.append(Sound(fileURL : i, createdAt:getFileDate(for: i), isPlaying: false))
+//                    recordingsList.append(Sound(id: 1, created: getFileDate(for: i), filename: i.lastPathComponent, name: i.deletingPathExtension().lastPathComponent ))
 //                }
 //
+//        Sound(
 //                recordingsList.sort(by: { $0.createdAt.compare($1.createdAt) == .orderedDescending})
 //
 //    }
-    
+
     func startPlaying() {
                 let playSession = AVAudioSession.sharedInstance()
         
@@ -212,12 +245,12 @@ class SoundViewModel : NSObject, ObservableObject , AVAudioPlayerDelegate{
         //        }
     }
     
-    //   func getFileDate(for file: URL) -> Date {
-    //        if let attributes = try? FileManager.default.attributesOfItem(atPath: file.path) as [FileAttributeKey: Any],
-    //            let creationDate = attributes[FileAttributeKey.creationDate] as? Date {
-    //            return creationDate
-    //        } else {
-    //            return Date()
-    //        }
-    //    }
+       func getFileDate(for file: URL) -> Date {
+            if let attributes = try? FileManager.default.attributesOfItem(atPath: file.path) as [FileAttributeKey: Any],
+                let creationDate = attributes[FileAttributeKey.creationDate] as? Date {
+                return creationDate
+            } else {
+                return Date()
+            }
+        }
 }
