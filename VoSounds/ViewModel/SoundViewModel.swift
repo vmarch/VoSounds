@@ -13,6 +13,7 @@ class SoundViewModel : NSObject, ObservableObject, AVAudioPlayerDelegate{
     
     //======= Teacher ========
     var teacherAudioPlayer : AVAudioPlayer!
+    private var teacherPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
     @Published var teacherAudioList:[TeachAudio] = []
     @Published var currentPlayingTeacherAudio: TeachAudio = TeachAudio(name: "", author: "", filename: "")
     @Published var isPlayingTeacherAudio : Bool = false
@@ -23,6 +24,7 @@ class SoundViewModel : NSObject, ObservableObject, AVAudioPlayerDelegate{
     
     var audioRecorder : AVAudioRecorder!
     var studentAudioPlayer : AVAudioPlayer!
+  
     
     @Published var studentRecordingList = [Recording]()
     @Published var currentPlayingStudentAudio: Recording = Recording(name: "", filename: "", created: "")
@@ -38,42 +40,40 @@ class SoundViewModel : NSObject, ObservableObject, AVAudioPlayerDelegate{
     
     override init(){
         super.init()
-        getWord()
-        getPathToAudioRepository()
+        
+        getPathToTeacherAudio()
         fetchAllTeacherAudio()
         fetchAllStudentAudio()
-        prepareToRecord()
+      //  prepareToRecord()
     }
     
     //EXAMPLE OF WORD!!!
+ 
     
-    func getWord(){
-        wordName = "hannover"
-    }
-    
-    
-    
-    
-   func getPathToAudioRepository(){
-     //  path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-//
-//       let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
-//       let documentsDirectory = paths[0]
-//       let docURL = URL(string: documentsDirectory)!
-//       let dataPath = docURL.appendingPathComponent(wordName)
-//
-//       if !FileManager.default.fileExists(atPath: dataPath.path) {
-//           do {
-//               try  FileManager.default.createDirectory(atPath: dataPath.path, withIntermediateDirectories: true, attributes: nil)
-//           } catch {
-//               print(error.localizedDescription)
-//           }
-//       }
+   func getPathToTeacherAudio(){
+       let currPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+      
+       let dataPath = currPath.appendingPathComponent("Teacher")
+
+       if !FileManager.default.fileExists(atPath: dataPath.path) {
+           do {
+               try  FileManager.default.createDirectory(atPath: dataPath.path, withIntermediateDirectories: true, attributes: nil)
+           } catch {
+               print(error.localizedDescription)
+           }
+       }
        
+       teacherPath = dataPath
     }
 
-
-    func getPath()->URL{
+    func getTeacherPath()->URL{
+                
+        let pathName = teacherPath.appendingPathComponent("teach_\(Date().toStringOfMilliseconds()).m4a")
+        print("\(pathName)")
+        
+        return pathName
+    }
+    func getStudentPath()->URL{
        
         let pathName = path.appendingPathComponent("vosounds_\(Date().toStringOfMilliseconds()).m4a")
         print("\(pathName)")
@@ -95,7 +95,7 @@ class SoundViewModel : NSObject, ObservableObject, AVAudioPlayerDelegate{
         ]
         
         do {
-            audioRecorder = try AVAudioRecorder(url: getPath(), settings: recordSettings)
+            audioRecorder = try AVAudioRecorder(url: getStudentPath(), settings: recordSettings)
             audioRecorder.prepareToRecord()
         } catch {
             print("Failed to Setup the Recording")
@@ -110,12 +110,12 @@ class SoundViewModel : NSObject, ObservableObject, AVAudioPlayerDelegate{
             stopRecording()
             isRecording = false
             fetchAllStudentAudio()
+            currentPlayingStudentAudio = studentRecordingList[(studentRecordingList.count - 1)]
         }
     }
     
-    
-    
     func startRecording() {
+        prepareToRecord()
         let recordingSession = AVAudioSession.sharedInstance()
                 do {
                     try recordingSession.setCategory(.playAndRecord, mode: .default)
@@ -180,8 +180,7 @@ class SoundViewModel : NSObject, ObservableObject, AVAudioPlayerDelegate{
     }
     
     func playOrStopStudentAudio(){
-        if(studentRecordingList.count>0 && !isRecording && !isPlayingStudentAudio && !isPlayingTeacherAudio){
-            isPlayingStudentAudio = true
+        if(studentRecordingList.count > 0 && !isRecording && !isPlayingStudentAudio && !isPlayingTeacherAudio){
             startPlayingStudentAudio()
         }else if(isPlayingStudentAudio){
             stopPlayingStudentAudio()
@@ -191,7 +190,7 @@ class SoundViewModel : NSObject, ObservableObject, AVAudioPlayerDelegate{
     
     func startPlayingStudentAudio() {
             let playSession = AVAudioSession.sharedInstance()
-        currentPlayingStudentAudio = studentRecordingList[(studentRecordingList.count - 1)]
+      
             do {
                 try playSession.overrideOutputAudioPort(AVAudioSession.PortOverride.speaker)
             } catch {
@@ -199,13 +198,14 @@ class SoundViewModel : NSObject, ObservableObject, AVAudioPlayerDelegate{
             }
         print("Count: \(studentRecordingList.count)")
             do {
-                studentAudioPlayer = try AVAudioPlayer(contentsOf: URL(fileURLWithPath:
-                                                                        //TODO change to fool URL.
-                                                                       currentPlayingStudentAudio))
+                
+                studentAudioPlayer = try AVAudioPlayer(contentsOf: path.appendingPathComponent(currentPlayingStudentAudio.filename))
                 studentAudioPlayer.delegate = self
                 studentAudioPlayer.prepareToPlay()
                 studentAudioPlayer.play()
+                isPlayingStudentAudio = true
             } catch {
+                isPlayingStudentAudio = false
                 print("Playing Failed")
             }
         }
@@ -257,12 +257,12 @@ class SoundViewModel : NSObject, ObservableObject, AVAudioPlayerDelegate{
     func  fetchAllTeacherAudio(){
            teacherAudioList.removeAll()
           
-           let directoryContents = try! FileManager.default.contentsOfDirectory(at: path, includingPropertiesForKeys: nil)
+           let directoryContents = try! FileManager.default.contentsOfDirectory(at: teacherPath, includingPropertiesForKeys: nil)
            
            var ind = 0
            
            for i in directoryContents {
-               teacherAudioList.append(TeachAudio(name: "Teach_\(ind)", author: "Bob", filename: i.lastPathComponent))
+               teacherAudioList.append(TeachAudio(name: "Hannover_\(ind)", author: "Alex", filename: i.lastPathComponent))
                ind += 1
               }
            
@@ -272,9 +272,7 @@ class SoundViewModel : NSObject, ObservableObject, AVAudioPlayerDelegate{
     
     func playOrStopTeacherAudio(){
         if(teacherAudioList.count > 0 && !isRecording && !isPlayingStudentAudio && !isPlayingTeacherAudio){
-            
             startPlayingTeacherAudio()
-            isPlayingTeacherAudio = true
         }else if(isPlayingTeacherAudio){
             stopPlayingTeacherAudio()
             isPlayingTeacherAudio = false
@@ -296,7 +294,9 @@ class SoundViewModel : NSObject, ObservableObject, AVAudioPlayerDelegate{
             teacherAudioPlayer.delegate = self
             teacherAudioPlayer.prepareToPlay()
             teacherAudioPlayer.play()
+            isPlayingTeacherAudio = true
         } catch {
+            isPlayingTeacherAudio = false
             print("Playing Failed")
         }
     }

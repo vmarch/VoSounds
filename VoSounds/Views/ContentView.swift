@@ -9,117 +9,147 @@ import SwiftUI
 import CoreData
 
 struct ContentView: View {
-     @Environment(\.managedObjectContext) private var viewContext
-     @EnvironmentObject var vm: SoundViewModel
-   // @ObservedObject var vm: SoundViewModel = SoundViewModel()
+    @Environment(\.managedObjectContext) private var viewContext
+    @EnvironmentObject var vm: SoundViewModel
+    // @ObservedObject var vm: SoundViewModel = SoundViewModel()
     
     var body: some View {
-        
-        VStack{
-
-            Section(header: Text("Choose an Teacher's Audio:")
-                        .padding(.horizontal ,16)
-                        .padding(.top ,8)){
-                List{
-                    ForEach(vm.teacherAudioList, id: \.id) { i in
-                        HStack{
-                            Text(i.name)
-                                .fontWeight(.bold)
-                        }
-                    }
-                }.padding(8)
-                    .background(Color.white)
-                    .cornerRadius(10)
-                    .padding(.horizontal, 8)
-                    .shadow(radius: 2)
-            }
+        NavigationView{
             
-            Spacer()
-            
-            HStack{
-                // Button Play/Pause Teacher's Audio
-                Button(action: {
-                    vm.playOrStopTeacherAudio()
-                }, label: {
-                    if(vm.isPlayingTeacherAudio){
-                        Image(systemName: "speaker.wave.2.circle.fill")
-                            .resizable()
-                            .scaledToFit()
-                            .foregroundColor(.blue)
-                            .frame(height: 60)
-                    }else{
-                        Image(systemName: "speaker.wave.2.circle")
-                            .resizable()
-                            .scaledToFit()
-                            .foregroundColor(.blue)
-                            .frame(height: 60)
-                    }
-                }
-                )
-                Divider()
-                // Button Start/Stop Record
-                Button(action: {
-                    vm.startOrStopRecording()
-                }, label: {
-                    if(vm.isRecording){
-                        Image(systemName: "stop.circle")
-                            .resizable()
-                            .scaledToFit()
-                            .foregroundColor(.red)
-                            .frame(height: 60)
-                    }else {
-                        Image(systemName: "mic.circle")
-                            .resizable()
-                            .scaledToFit()
-                            .foregroundColor(.blue)
-                            .frame(height: 60)
-                    }
-                }
-                )
-                
-                // Button Play/Pause User's Audio
-                Button(action: {
-                    vm.playOrStopStudentAudio()
-                }, label: {
-                    if(vm.isPlayingStudentAudio){
-                        Image(systemName: "pause.circle")
-                            .resizable()
-                            .scaledToFit()
-                            .foregroundColor(.blue)
-                            .frame(height: 60)
-                    }else{
-                        Image(systemName: "play.circle")
-                            .resizable()
-                            .scaledToFit()
-                            .foregroundColor(.blue)
-                            .frame(height: 60)
-                    }
-                }
-                )
-            }
-            Divider()
-
-            Section(header: Text("Choose your's Audio:")
-                        .padding(.horizontal ,16)
-                        .padding(.top ,8)){
+            ZStack{
                 VStack{
-                    List{
-                        ForEach(vm.studentRecordingList, id: \.id) { (rec) in
-                            NavigationLink(destination: Text("löl")) {
+                    
+                    Section(header: Text("Choose teacher's Audio:")
+                                .padding(.horizontal ,16)
+                                .padding(.top ,8)){
+                        List{
+                            ForEach(vm.teacherAudioList, id: \.id) { i in
                                 HStack{
-                                                                  
-                                Text("\(rec.name)")
-                                    Text("(\(Date(stringOfMilliseconds: rec.created).getDateAsString)")
-                                }.onAppear{
-                                    print("IN LIST VIEW")
+                                    Text(i.name)
+                                        .fontWeight(.bold)
+                                }
+                            }
+                        }.padding(8)
+                            .background(Color.white)
+                            .cornerRadius(10)
+                            .padding(.horizontal, 8)
+                            .shadow(radius: 2)
+                    }
+                    
+                    Spacer()
+                    if(vm.isPlayingTeacherAudio){
+                        Text("\(vm.currentPlayingTeacherAudio.name)")
+                    }else{
+                        Text("")
+                    }
+                    
+                    Spacer()
+                    HStack{
+                        // Button Play/Pause Teacher's Audio
+                        Button(action: {
+                            vm.playOrStopTeacherAudio()
+                        }, label: {
+                            if(vm.isPlayingTeacherAudio){
+                                Image(systemName: "speaker.wave.2.circle.fill")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .foregroundColor(.blue)
+                                    .frame(height: 60)
+                            }else{
+                                Image(systemName: "speaker.wave.2.circle")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .foregroundColor(.blue)
+                                    .frame(height: 60)
+                            }
+                        }
+                        )
+                        Divider()
+                        // Button Start/Stop Record
+                        Button(action: {
+                            vm.startOrStopRecording()
+                        }, label: {
+                            if(vm.isRecording){
+                                Image(systemName: "stop.circle")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .foregroundColor(.red)
+                                    .frame(height: 60)
+                            }else {
+                                Image(systemName: "mic.circle")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .foregroundColor(.blue)
+                                    .frame(height: 60)
+                            }
+                        }
+                        )
+                        
+                        // Button Play/Pause User's Audio
+                        Button(action: {
+                            vm.playOrStopStudentAudio()
+                        }, label: {
+                            if(vm.isPlayingStudentAudio){
+                                Image(systemName: "pause.circle")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .foregroundColor(.blue)
+                                    .frame(height: 60)
+                            }else{
+                                Image(systemName: "play.circle")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .foregroundColor(.blue)
+                                    .frame(height: 60)
+                            }
+                        }
+                        )
+                    }
+                    Spacer()
+                    if(vm.isPlayingStudentAudio){
+                        HStack{
+                            Text("\(vm.currentPlayingStudentAudio.name) (\(Date(stringOfMilliseconds: vm.currentPlayingStudentAudio.created).getDateAsString))")
+                        }
+                    }else{
+                        Text("")
+                    }
+                    
+                    Spacer()
+                    
+                    Divider()
+                    
+                    Section(header: Text("Choose your's Audio:")
+                                .padding(.horizontal ,16)
+                                .padding(.top ,8)){
+                        VStack{
+                            List{
+                                ForEach(vm.studentRecordingList, id: \.id) { (rec) in
                                     
+                                    HStack{
+                                        
+                                        Text("\(rec.name)")
+                                        Text("(\(Date(stringOfMilliseconds: rec.created).getDateAsString))")
+                                        
+                                        Spacer()
+                                        
+                                        Button(action: {
+                                            vm.currentPlayingStudentAudio = rec
+                                            vm.playOrStopStudentAudio()
+                                        }) {
+                                            if (vm.isPlayingStudentAudio && vm.currentPlayingStudentAudio.filename == rec.filename) {
+                                                Text("Stop").foregroundColor(Color.red)
+                                            }else{
+                                                Text("Play").foregroundColor(Color.blue)
+                                            }
+                                        }
+                                        .buttonStyle(PlainButtonStyle())
+                                        
+                                        
+                                    }.padding(.horizontal, 8)
                                 }
                             }
                         }
-                    }.navigationBarItems(leading: EditButton(),
-                                         trailing: Button("Add") {
-                        
-                    })
+                    }
                 }
             }
         }
